@@ -49,9 +49,9 @@ def fit_model(params: FitIn):
         model.wrangle_data(params.n_observations)
         model.fit(params.p, params.q)
         model.dump()
-        return {**params.dict(), "success": True, "message": "Model trained successfully"}
+        return {**params.model_dump(), "success": True, "message": "Model trained successfully"}
     except Exception as e:
-        return {**params.dict(), "success": False, "message": str(e)}
+        return {**params.model_dump(), "success": False, "message": str(e)}
 
 @app.post("/predict", response_model=PredictOut)
 def predict_volatility(params: PredictIn):
@@ -59,6 +59,6 @@ def predict_volatility(params: PredictIn):
         model = build_model(params.ticker, False)
         model.load()
         forecast = model.predict_volatility(params.n_days)
-        return {**params.dict(), "success": True, "forecast": forecast, "message": "Success"}
+        return {**params.model_dump(), "success": True, "forecast": forecast, "message": "Success"}
     except Exception as e:
-        return {**params.dict(), "success": False, "forecast": {}, "message": str(e)}
+        return {**params.model_dump(), "success": False, "forecast": {}, "message": str(e)}
