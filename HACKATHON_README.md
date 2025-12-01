@@ -334,3 +334,5 @@ MIT License - See LICENSE file
 
 **Built for Mantle Global Hackathon 2025** 🏆  
 **Track: RWA/RealFi + AI & Oracles**  
+**Prize Pool: $150,000 USDT**
+
