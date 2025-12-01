@@ -1,173 +1,129 @@
-# GARCH Model API for Volatility Forecasting 📈🚀
+## GARCH Model API for Volatility Forecasting 📈🚀
 
-A production-ready API for training GARCH models and forecasting stock volatility. Built with FastAPI, SQLite, and ARCH.
+A production-ready stack for training GARCH models and forecasting stock volatility, with:
+
+- **FastAPI backend** (Python) for model training and prediction
+- **SQLite** storage and data pipeline
+- **ARCH-based GARCH models**
+- **C++/Qt desktop UI** for a sleek, point-and-click experience
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Features ✨
-
-- **Automated Data Pipeline**: Fetch stock data from Alpha Vantage API
-- **SQL Storage**: Persistent data storage with SQLite
-- **GARCH Modeling**: Train volatility forecasting models (GARCH 1,1)
-- **Production API**: REST endpoints for model training and predictions
-- **Error Handling**: Robust validation and error reporting
-
-## Installation ⚙️
-
-1. **Clone Repository**
-```bash
-git clone https://github.com/Usernyagah/garch-model-api.git
-cd garch-model-api
-```
-
-2. **Install Dependencies**
-
-```bash
-pip install -r requirements.txt
-```
-
-
-3. **Environment Setup**
-
-```bash
-cp .env.example .env
-# Edit .env with your Alpha Vantage API key
-```
-
-4. **Create Directories**
-
-```bash
-mkdir -p models
-```
-
-## Configuration
-
-.env file requirements:
-```bash
-
-ALPHA_API_KEY=your_api_key_here  # Get from https://www.alphavantage.io
-DB_NAME=stocks.db                # SQLite database file
-MODEL_DIRECTORY=models           # Trained model storage
-```
-
-## API Documentation 📚
-
-Endpoints
-| Endpoint     | Method        | Description                  |
-|--------------|---------------|------------------------------|
-| `/hello`     | GET           | Service health check         |
-| `/fit`       | POST          | Train new GARCH model        |
-| `/predict`   | POST          | Get volatility forecast      |
-
-
-## Request Examples
-Train a Model (/fit)
-
-```bash
-curl -X POST "http://localhost:8008/fit" \
--H "Content-Type: application/json" \
--d '{
-  "ticker": "SHOPERSTOP.BSE",
-  "use_new_data": false,
-  "n_observations": 2000,
-  "p": 1,
-  "q": 1
-}'
-```
-
-## Get Prediction (/predict)
-
-```bash
-curl -X POST "http://localhost:8008/predict" \
--H "Content-Type: application/json" \
--d '{
-  "ticker": "SHOPERSTOP.BSE",
-  "n_days": 5
-}'
-```
-
-## Response Format
-```bash
-json
-{
-  "ticker": "SHOPERSTOP.BSE",
-  "n_days": 5,
-  "success": true,
-  "forecast": {
-    "1": 0.0214,
-    "2": 0.0198,
-    "3": 0.0183,
-    "4": 0.0170,
-    "5": 0.0158
-  },
-  "message": "Success"
-}
-```
-
-
-## Usage 🚀
-Start Server
-
-```bash
-uvicorn main:app --reload --workers 1 --host localhost --port 8008
-```
-
-## Test API (in new terminal)
-
-```bash
-python test_api.py
-```
-
-## Interactive Docs (Swagger UI)
-Visit http://localhost:8008/docs in your browser
-
-## Project Structure 🗂️
-```bash
-garch-model-api/
-├── data.py           # Database operations
-├── model.py          # GARCH model implementation
-├── main.py           # FastAPI application
-├── config.py         # Environment configuration
-├── test_api.py       # API test script
-├── requirements.txt  # Dependencies
-└── .env              # Environment variables
-```
-
-## Contributing 🤝
-
-We welcome contributions! Here's how to get started:
-
-1. **Fork the Repository** 
-   ```bash 
-    [Fork](https://github.com/Usernyagah/garch-model-api/fork) this repository
-    ```
-
-2. **Create Feature Branch**  
-   ```bash
-    git checkout -b feature/amazing-feature
-   ```
-
-3. **Commit Changes**
-   ```bash
-   git commit -m 'Add some amazing feature'
-   ```
-
-4. **Push to Branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-
-5. **Open Pull Request**
-  Create a Pull Request
-
-## License 📄
-This project is licensed under the MIT License - see LICENSE file for details.
 ---
 
-**Built with ❤️ by Dennis**  
-[![GitHub](https://img.shields.io/badge/GitHub-Profile-blue)](https://github.com/Usernyagah) 
+## Backend (FastAPI) ⚙️
 
+- **Install dependencies**
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+- **Environment (optional)**
+  ```bash
+  # .env
+  ALPHA_API_KEY=your_api_key_here   # https://www.alphavantage.io
+  DB_NAME=stocks.db                 # SQLite database file
+  MODEL_DIRECTORY=models            # Trained model storage
+  ```
+
+- **Run the API**
+  ```bash
+  uvicorn main:app --reload --host localhost --port 8008
+  ```
+
+- **Key endpoints**
+  - **GET** `/hello` – health check  
+  - **POST** `/fit` – train a GARCH model  
+  - **POST** `/predict` – get a volatility forecast
+
+---
+
+## Desktop UI (C++ / Qt) 💻
+
+A Qt-based desktop client (`GarchModelUI`) that talks to the API.
+
+- **Prerequisites (Windows)**
+  - Qt 6 (including **Qt 6.x MinGW 64-bit** or MSVC kit)
+  - CMake 3.16+
+  - C++17-capable toolchain (MinGW or MSVC)
+
+- **Build with helper script (Windows)**
+  ```powershell
+  cd garch-model-api
+  .\build_ui.bat
+  ```
+  This configures CMake with your Qt install and builds the UI into the `build` folder.
+
+- **Build manually (cross‑platform)** – see `UI_README.md` for full Qt instructions.
+
+- **Run the UI (after a successful build)**
+  ```bash
+  # from the build directory
+  ./GarchModelUI.exe      # Windows
+  ./GarchModelUI          # Linux/macOS
+  ```
+
+The UI lets you:
+- Check API health
+- Train models (ticker, observations, p, q, use_new_data)
+- Request multi‑day volatility forecasts and view formatted results
+
+---
+
+## Quick API Examples
+
+- **Train model**
+  ```bash
+  curl -X POST "http://localhost:8008/fit" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "ticker": "SHOPERSTOP.BSE",
+      "use_new_data": false,
+      "n_observations": 2000,
+      "p": 1,
+      "q": 1
+    }'
+  ```
+
+- **Get forecast**
+  ```bash
+  curl -X POST "http://localhost:8008/predict" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "ticker": "SHOPERSTOP.BSE",
+      "n_days": 5
+    }'
+  ```
+
+---
+
+## Project Structure 🗂️
+
+```bash
+garch-model-api/
+├── main.py          # FastAPI app
+├── data.py          # DB operations
+├── model.py         # GARCH implementation
+├── config.py        # Settings / env
+├── test_api.py      # Simple API test script
+├── requirements.txt # Python deps
+├── CMakeLists.txt   # C++/Qt build config
+├── main.cpp         # C++ UI entry point
+├── MainWindow.*     # Qt main window
+├── ApiClient.*      # HTTP client for API
+├── build_ui.bat     # Windows build helper
+└── UI_README.md     # Detailed UI docs
+```
+
+---
+
+## License 📄
+
+This project is licensed under the MIT License – see `LICENSE` for details.
+
+**Built with ❤️ by Dennis**  
+[GitHub profile](https://github.com/Usernyagah)  
 
 *Data provided by [Alpha Vantage](https://www.alphavantage.io/)*  
 *Modeling powered by [ARCH](https://arch.readthedocs.io/)*

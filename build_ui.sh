@@ -48,3 +48,5 @@ echo "Build successful!"
 echo "Executable: build/GarchModelUI"
 echo
 
+
+

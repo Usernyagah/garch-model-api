@@ -162,3 +162,5 @@ void ApiClient::handleError(QNetworkReply::NetworkError error, const QString &co
     emit errorOccurred(errorMsg);
 }
 
+
+

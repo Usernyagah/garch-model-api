@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Local data / DB
+stocks.db
+models/
+
+# Qt / CMake build artifacts
+build/
+.qt/
+.qtcreator/
+GarchModelUI.exe
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+

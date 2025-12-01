@@ -173,3 +173,5 @@ Same license as the main GARCH Model API project.
 
 **Built with Qt6 and C++17** 🚀
 
+
+
